@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 const User = require("./User");
-const Vote = require("./Vote")
+//const Vote = require("./Vote")
 
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config")[env];
