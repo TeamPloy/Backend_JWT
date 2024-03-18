@@ -3,7 +3,7 @@ const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const ACCESSSERECT = 'accessserect'; 
+const ACCESSERECT = 'accessserect'; 
 const REFRESHSECRET = 'refreshsecret'; 
 
 // 회원가입
@@ -62,19 +62,19 @@ router.post('/signin', async (req, res) => {
       // refreshToken이 유효한 경우
       newAccessToken = jwt.sign( //accessToken 발급
         { userId: user.Id, userName: user.name },
-        ACCESSSERECT,
-        { expiresIn: '1h' }
+        ACCESSERECT,
+        { expiresIn: '1d' }
       );
     } catch (error) { // refreshToken이 유효하지 않은 경우
       newRefreshToken = jwt.sign( //refreshToken 새로 발급
         { userId: user.Id, userName: user.name },
         REFRESHSECRET,
-        { expiresIn: '30d' }
+        { expiresIn: '10d' }
       );
       newAccessToken = jwt.sign( //accessToken 발급
         { userId: user.Id, userName: user.name },
-        ACCESSSERECT,
-        { expiresIn: '1h' }
+        ACCESSERECT,
+        { expiresIn: '1d' }
       );
       //새로운 refreshToken 저장
       await User.update({ refreshToken: newRefreshToken }, { where: { Id: user.Id } });
