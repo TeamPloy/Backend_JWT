@@ -3,8 +3,9 @@ const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const ACCESSERECT = 'accessserect'; 
-const REFRESHSECRET = 'refreshsecret'; 
+
+require("dotenv").config();
+const SecretKey = SECRET_TOKEN_SECRET;
 
 // 회원가입
 router.post('/signup', async (req, res) => {
@@ -27,7 +28,7 @@ router.post('/signup', async (req, res) => {
     // refreshToken 생성 (유효 시간: 1달)
     const refreshToken = jwt.sign(
       { userId: Id, userName: name },
-      REFRESHSECRET,
+      SecretKey,
       { expiresIn: '30d' }
     );
     
@@ -58,22 +59,22 @@ router.post('/signin', async (req, res) => {
     let newAccessToken;
     let newRefreshToken;
     try {
-      jwt.verify(user.refreshToken, REFRESHSECRET);
+      jwt.verify(user.refreshToken, SecretKey);
       // refreshToken이 유효한 경우
       newAccessToken = jwt.sign( //accessToken 발급
         { userId: user.Id, userName: user.name },
-        ACCESSERECT,
+        SecretKey,
         { expiresIn: '1d' }
       );
     } catch (error) { // refreshToken이 유효하지 않은 경우
       newRefreshToken = jwt.sign( //refreshToken 새로 발급
         { userId: user.Id, userName: user.name },
-        REFRESHSECRET,
+        SecretKey,
         { expiresIn: '10d' }
       );
       newAccessToken = jwt.sign( //accessToken 발급
         { userId: user.Id, userName: user.name },
-        ACCESSERECT,
+        SecretKey,
         { expiresIn: '1d' }
       );
       //새로운 refreshToken 저장
