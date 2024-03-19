@@ -1,8 +1,10 @@
 const express = require("express");
 const User = require("../models/User");
 const jwt = require('jsonwebtoken');
-const ACCESSERECT = 'accessserect'; 
-const REFRESHSECRET = 'refreshsecret';
+
+require("dotenv").config();
+const SecretKey = SECRET_TOKEN_SECRET;
+
 
 const validateToken = async (req, res, next) => {
   const accessToken = req.header('accessToken');
@@ -10,7 +12,7 @@ const validateToken = async (req, res, next) => {
   if (!accessToken) return res.json({ error: '로그인 상태가 아닙니다.' });
 
   try {
-    const validToken = jwt.verify(accessToken, ACCESSERECT);
+    const validToken = jwt.verify(accessToken, SecretKey);
     req.user = validToken;
     if (validToken) {
       return next();
@@ -30,10 +32,10 @@ const validateToken = async (req, res, next) => {
         if (!refreshToken) return res.json({ error: '재로그인이 필요합니다.' });
 
         // refreshToken 검증
-        const validRefreshToken = jwt.verify(refreshToken, REFRESHSECRET);
+        const validRefreshToken = jwt.verify(refreshToken, SecretKey);
         if (validRefreshToken) {
           // refreshToken이 유효한 경우 새로운 accessToken 재발급
-          const newAccessToken = jwt.sign({ id: user.id }, ACCESSERECT, { expiresIn: '1d' });
+          const newAccessToken = jwt.sign({ id: user.id }, SecretKey, { expiresIn: '1d' });
           res.header('accessToken', newAccessToken); // 새로운 accessToken 설정
           req.user = { id: user.id };
           return next();
