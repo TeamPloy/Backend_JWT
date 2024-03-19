@@ -10,8 +10,6 @@ const SecretKey = env.SECRET_TOKEN_SECRET;
 const validateToken = async (req, res, next) => {
   const accessToken = req.header('accessToken');
 
-  if (!accessToken) return res.json({ error: '로그인 상태가 아닙니다.' });
-
   try {
     const validToken = jwt.verify(accessToken, SecretKey);
     req.user = validToken;

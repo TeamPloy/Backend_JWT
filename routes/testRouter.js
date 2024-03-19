@@ -1,5 +1,5 @@
 const express = require("express");
-const { validateToken } = require("../middleware/AuthMiddleware"); // 여기 경로는 실제 파일 위치에 맞게 조정해주세요.
+const { validateToken } = require("../middleware/AuthMiddleware"); 
 const router = express.Router();
 
 // 테스트 API 경로

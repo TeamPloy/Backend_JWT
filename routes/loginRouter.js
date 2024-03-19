@@ -71,7 +71,7 @@ router.post('/signin', async (req, res) => {
       newRefreshToken = jwt.sign( //refreshToken 새로 발급
         { userId: user.Id, userName: user.name },
         SecretKey,
-        { expiresIn: '10d' }
+        { expiresIn: '30d' }
       );
       newAccessToken = jwt.sign( //accessToken 발급
         { userId: user.Id, userName: user.name },
