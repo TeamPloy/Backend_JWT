@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 require("dotenv").config();
-const SecretKey = SECRET_TOKEN_SECRET;
+const env = process.env;
+const SecretKey = env.SECRET_TOKEN_SECRET;
 
 // 회원가입
 router.post('/signup', async (req, res) => {
