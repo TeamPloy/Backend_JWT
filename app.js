@@ -1,8 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./models");
-//const cron = require('node-cron');
-//const { swaggerUi, specs } = require('./modules/swagger');
 const app = express();
 
 app.use(
@@ -41,13 +39,3 @@ app.listen(app.get("port"), () => {
 app.get('/', (req, res) => {
 	res.send('BSSMBALL API (PORT : 9898)');
 });
-
-// cron.schedule('0 0 * * *', () => {
-//   Vote.destroy({ truncate: true }) // Vote 테이블 초기화
-//     .then(() => {
-//       console.log('Vote 테이블 초기화 완료');
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//     });
-// });
